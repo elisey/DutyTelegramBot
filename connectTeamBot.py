@@ -26,11 +26,15 @@ def set_duty(bot, update, args):
     else:
         bot.sendMessage(update.message.chat_id, text = "Неправильный параметр команды")
 
+def get_duty(bot, update, args):
+    dutyName = getDutyName()
+    bot.sendMessage(update.message.chat_id, text=dutyName)
+
 def start(bot, update):
     bot.sendMessage(update.message.chat_id, text='Привет')
 
 def help(bot, update):
-    bot.sendMessage(update.message.chat_id, text='Написать "дежурный" и получить имя')
+    bot.sendMessage(update.message.chat_id, text='Написать "дежурный" или /get_duty чтобы получить имя.')
 
 def error(bot, update, error):
     logger.warn('Update "%s" caused error "%s"' % (update, error))
@@ -54,6 +58,7 @@ def main():
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("set_duty", set_duty, pass_args=True))
+    dp.add_handler(CommandHandler("get_duty", get_duty, pass_args=True))
 
     free_text_handler = MessageHandler(Filters.text, freeText)
     dp.add_handler(free_text_handler)
